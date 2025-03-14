@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky",
+    "type:check": "tsc --noEmit",
+    "prepush": "npm run lint --fix && npm run type:check",
     "postinstall": "prisma generate && prisma migrate deploy"
   },
   "dependencies": {
