@@ -16,7 +16,7 @@ import { signUpSchema, SignUpValues } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import LoadingButton from "../loading-button";
+import LoadingButton from "../buttons/loading-button";
 import { PasswordInput } from "./password-input";
 
 export default function SignUpForm() {

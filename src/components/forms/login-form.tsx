@@ -14,7 +14,7 @@ import { loginSchema, LoginValues } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import LoadingButton from "../loading-button";
+import LoadingButton from "../buttons/loading-button";
 
 import { login } from "@/actions/login-action";
 import { PasswordInput } from "./password-input";
