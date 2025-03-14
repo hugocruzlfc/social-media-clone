@@ -16,17 +16,18 @@ datasource db {
 }
 
 model User {
-  id           String    @id
-  username     String    @unique
+  id           String  @id
+  username     String  @unique
   displayName  String
-  email        String?   @unique
+  email        String? @unique
   passwordHash String?
-  googleId     String?   @unique
+  googleId     String? @unique
   avatarUrl    String?
   bio          String?
-  sessions     Session[]
+  posts        Post[]
 
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  Session   Session[]
 
   @@map("users")
 }
@@ -38,4 +39,15 @@ model Session {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
+}
+
+model Post {
+  id      String @id @default(cuid())
+  content String
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@map("posts")
 }
