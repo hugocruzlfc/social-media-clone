@@ -1,12 +1,15 @@
 "use server";
+import { POSTS_PER_PAGE } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import { postDataInclude } from "@/lib/types";
 import { unstable_cache } from "next/cache";
 
-export async function getPosts() {
+export async function getPosts(cursor?: string) {
   const posts = await prisma.post.findMany({
     include: postDataInclude,
     orderBy: { createdAt: "desc" },
+    take: POSTS_PER_PAGE + 1,
+    cursor: cursor ? { id: cursor } : undefined,
   });
 
   return posts;
