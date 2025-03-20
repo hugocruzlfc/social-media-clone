@@ -35,3 +35,13 @@ export const getTrendingTopics = unstable_cache(
     revalidate: 3 * 60 * 60,
   },
 );
+
+export async function createPost(content: string, userId: string) {
+  return await prisma.post.create({
+    data: {
+      content,
+      userId,
+    },
+    include: postDataInclude,
+  });
+}
