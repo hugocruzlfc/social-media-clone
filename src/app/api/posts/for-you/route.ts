@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
     const cursor = req.nextUrl.searchParams.get("cursor") || undefined;
 
-    const posts = await getPosts(cursor);
+    const posts = await getPosts(user.id, cursor);
 
     const nextCursor =
       posts.length > POSTS_PER_PAGE ? posts[POSTS_PER_PAGE].id : null;

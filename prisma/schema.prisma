@@ -16,15 +16,17 @@ datasource db {
 }
 
 model User {
-  id           String  @id
-  username     String  @unique
+  id           String   @id
+  username     String   @unique
   displayName  String
-  email        String? @unique
+  email        String?  @unique
   passwordHash String?
-  googleId     String? @unique
+  googleId     String?  @unique
   avatarUrl    String?
   bio          String?
   posts        Post[]
+  following    Follow[] @relation("Following")
+  followers    Follow[] @relation("Followers")
 
   createdAt DateTime  @default(now())
   Session   Session[]
@@ -50,4 +52,14 @@ model Post {
   createdAt DateTime @default(now())
 
   @@map("posts")
+}
+
+model Follow {
+  followerId  String
+  follower    User   @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String
+  following   User   @relation("Followers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@map("follows")
 }

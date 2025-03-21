@@ -1,12 +1,13 @@
 "use server";
 import { POSTS_PER_PAGE } from "@/lib/constants";
 import prisma from "@/lib/prisma";
-import { postDataInclude } from "@/lib/types";
+import { getPostDataInclude } from "@/lib/types";
+
 import { unstable_cache } from "next/cache";
 
-export async function getPosts(cursor?: string) {
+export async function getPosts(userId: string, cursor?: string) {
   const posts = await prisma.post.findMany({
-    include: postDataInclude,
+    include: getPostDataInclude(userId),
     orderBy: { createdAt: "desc" },
     take: POSTS_PER_PAGE + 1,
     cursor: cursor ? { id: cursor } : undefined,
@@ -42,7 +43,7 @@ export async function createPost(content: string, userId: string) {
       content,
       userId,
     },
-    include: postDataInclude,
+    include: getPostDataInclude(userId),
   });
 }
 
@@ -57,7 +58,7 @@ export async function removePost(postId: string, userId: string) {
 
   const deletedPost = await prisma.post.delete({
     where: { id: postId },
-    include: postDataInclude,
+    include: getPostDataInclude(userId),
   });
 
   return deletedPost;

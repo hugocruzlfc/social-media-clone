@@ -25,3 +25,11 @@ export function formatNumber(n: number): string {
     maximumFractionDigits: 1,
   }).format(n);
 }
+
+export function updateDynamicUrl(
+  url: string,
+  segment: string,
+  value: string,
+): string {
+  return url.replace(`:${segment}`, value);
+}
