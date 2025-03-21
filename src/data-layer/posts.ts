@@ -45,3 +45,20 @@ export async function createPost(content: string, userId: string) {
     include: postDataInclude,
   });
 }
+
+export async function removePost(postId: string, userId: string) {
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+  });
+
+  if (!post) throw new Error("Post not found");
+
+  if (post.userId !== userId) throw new Error("Unauthorized");
+
+  const deletedPost = await prisma.post.delete({
+    where: { id: postId },
+    include: postDataInclude,
+  });
+
+  return deletedPost;
+}
