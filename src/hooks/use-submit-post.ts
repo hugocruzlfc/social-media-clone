@@ -1,7 +1,9 @@
 import { submitPost } from "@/actions/submit-post-action";
+import { useSession } from "@/components/session-provider";
 import { PostsPage } from "@/lib/types";
 import {
   InfiniteData,
+  Query,
   QueryFilters,
   useMutation,
   useQueryClient,
@@ -10,12 +12,23 @@ import { toast } from "sonner";
 
 export function useSubmitPost() {
   const queryClient = useQueryClient();
+  const { user } = useSession();
 
   const mutation = useMutation({
     mutationFn: submitPost,
     onSuccess: async (newPost) => {
       const queryFilter: QueryFilters<InfiniteData<PostsPage, string | null>> =
-        { queryKey: ["post-feed", "for-you"] };
+        {
+          queryKey: ["post-feed"],
+          predicate(query) {
+            return (
+              query.queryKey.includes("for-you") ||
+              (query.queryKey.includes("user-posts") &&
+                query.queryKey.includes(user.id)) ||
+              false
+            );
+          },
+        };
 
       await queryClient.cancelQueries(queryFilter);
 
@@ -42,7 +55,18 @@ export function useSubmitPost() {
       queryClient.invalidateQueries({
         queryKey: queryFilter.queryKey,
         predicate(query) {
-          return !query.state.data;
+          return (
+            (queryFilter.predicate?.(
+              query as Query<
+                InfiniteData<PostsPage, string | null>,
+                Error,
+                InfiniteData<PostsPage, string | null>,
+                readonly unknown[]
+              >,
+            ) &&
+              !query.state.data) ??
+            false
+          );
         },
       });
 
