@@ -4,6 +4,8 @@ export const API_URL = {
   FOLLOWERS_BY_USER: (userId: string) =>
     `/api/users/${userId}/followers` as const,
   POST_BY_USER: (userId: string) => `/api/users/${userId}/posts` as const,
+  USER_BY_USERNAME: (username: string) =>
+    `/api/users/username/${username}` as const,
 };
 
 export const POSTS_PER_PAGE = 10;
