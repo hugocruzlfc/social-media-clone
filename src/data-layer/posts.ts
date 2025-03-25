@@ -63,3 +63,23 @@ export async function removePost(postId: string, userId: string) {
 
   return deletedPost;
 }
+
+export async function getPostsWithFollowers(userId: string, cursor?: string) {
+  const posts = await prisma.post.findMany({
+    where: {
+      user: {
+        followers: {
+          some: {
+            followerId: userId,
+          },
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+    take: POSTS_PER_PAGE + 1,
+    cursor: cursor ? { id: cursor } : undefined,
+    include: getPostDataInclude(userId),
+  });
+
+  return posts;
+}

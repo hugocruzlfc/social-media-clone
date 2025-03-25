@@ -1,6 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { formatDate, formatDistanceToNowStrict } from "date-fns";
 import { twMerge } from "tailwind-merge";
+import { POSTS_PER_PAGE } from "./constants";
+import { PostData, PostsPage } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -32,4 +34,16 @@ export function updateDynamicUrl(
   value: string,
 ): string {
   return url.replace(`:${segment}`, value);
+}
+
+export function formatPostData(posts: PostData[]) {
+  const nextCursor =
+    posts.length > POSTS_PER_PAGE ? posts[POSTS_PER_PAGE].id : null;
+
+  const data: PostsPage = {
+    posts: posts.slice(0, POSTS_PER_PAGE),
+    nextCursor,
+  };
+
+  return data;
 }

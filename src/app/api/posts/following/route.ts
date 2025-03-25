@@ -1,20 +1,20 @@
 import { validateRequest } from "@/auth";
-import { getPosts } from "@/data-layer/posts";
+import { getPostsWithFollowers } from "@/data-layer/posts";
 import { PostsPage } from "@/lib/types";
 import { formatPostData } from "@/lib/utils";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   try {
+    const cursor = req.nextUrl.searchParams.get("cursor") || undefined;
+
     const { user } = await validateRequest();
 
     if (!user) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const cursor = req.nextUrl.searchParams.get("cursor") || undefined;
-
-    const posts = await getPosts(user.id, cursor);
+    const posts = await getPostsWithFollowers(user.id, cursor);
 
     const data: PostsPage = formatPostData(posts);
 
