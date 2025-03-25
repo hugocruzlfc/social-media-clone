@@ -18,7 +18,7 @@ export async function GET(
     }
 
     const { userId } = await params;
-    const posts = await getPostsByUserId(userId, cursor);
+    const posts = await getPostsByUserId(user.id, userId, cursor);
 
     const data: PostsPage = formatPostData(posts);
 
