@@ -83,3 +83,15 @@ export async function getPostsWithFollowers(userId: string, cursor?: string) {
 
   return posts;
 }
+
+export async function getPostsByUserId(userId: string, cursor?: string) {
+  const posts = await prisma.post.findMany({
+    where: { userId },
+    orderBy: { createdAt: "desc" },
+    take: POSTS_PER_PAGE + 1,
+    cursor: cursor ? { id: cursor } : undefined,
+    include: getPostDataInclude(userId),
+  });
+
+  return posts;
+}

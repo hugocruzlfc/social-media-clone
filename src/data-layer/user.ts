@@ -46,3 +46,20 @@ export async function getUserWithFollowers(
 
   return user;
 }
+
+export async function getUserFindFirst(
+  username: string,
+  loggedInUserId: string,
+) {
+  const user = await prisma.user.findFirst({
+    where: {
+      username: {
+        equals: username,
+        mode: "insensitive",
+      },
+    },
+    select: getUserDataSelect(loggedInUserId),
+  });
+
+  return user;
+}
