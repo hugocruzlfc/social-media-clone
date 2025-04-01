@@ -1,10 +1,10 @@
 import { FollowerInfo, UserData } from "@/lib/types";
 import { formatNumber } from "@/lib/utils";
 import { formatDate } from "date-fns";
+import EditProfileButton from "../buttons/edit-profile-button";
 import FollowButton from "../buttons/follow-button";
-import { Button } from "../ui/button";
-import UserAvatar from "../user-avatar";
 import FollowerCount from "./follower-count";
+import UserAvatar from "./user-avatar";
 
 interface UserProfileProps {
   user: UserData;
@@ -47,7 +47,7 @@ export default async function UserProfile({
           </div>
         </div>
         {user.id === loggedInUserId ? (
-          <Button>Edit profile</Button>
+          <EditProfileButton user={user} />
         ) : (
           <FollowButton userId={user.id} initialState={followerInfo} />
         )}

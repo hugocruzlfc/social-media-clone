@@ -20,7 +20,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import UserAvatar from "../user-avatar";
+import UserAvatar from "../users/user-avatar";
 
 interface UserButtonProps {
   className?: string;

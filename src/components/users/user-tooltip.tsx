@@ -12,8 +12,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import UserAvatar from "../user-avatar";
 import FollowerCount from "./follower-count";
+import UserAvatar from "./user-avatar";
 
 interface UserTooltipProps extends PropsWithChildren {
   user: UserData;

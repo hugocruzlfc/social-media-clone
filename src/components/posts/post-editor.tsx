@@ -7,7 +7,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { useSubmitPost } from "@/hooks/use-submit-post";
 import LoadingButton from "../buttons/loading-button";
 import { useSession } from "../session-provider";
-import UserAvatar from "../user-avatar";
+import UserAvatar from "../users/user-avatar";
 import "./styles.css";
 
 export default function PostEditor() {

@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import FollowButton from "../buttons/follow-button";
-import UserAvatar from "../user-avatar";
+import UserAvatar from "../users/user-avatar";
 import UserTooltip from "../users/user-tooltip";
 
 export default function TrendsSidebar() {

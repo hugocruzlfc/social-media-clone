@@ -6,7 +6,7 @@ import Link from "next/link";
 import PostMoreButton from "../buttons/post-more-button";
 import Linkify from "../navigation/linkify";
 import { useSession } from "../session-provider";
-import UserAvatar from "../user-avatar";
+import UserAvatar from "../users/user-avatar";
 import UserTooltip from "../users/user-tooltip";
 
 interface PostProps {
