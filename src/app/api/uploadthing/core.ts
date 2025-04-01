@@ -20,23 +20,14 @@ export const fileRouter = {
       const oldAvatarUrl = metadata.user.avatarUrl;
 
       if (oldAvatarUrl) {
-        const key = oldAvatarUrl.split(
-          `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
-        )[1];
-
-        await new UTApi().deleteFiles(key);
+        await new UTApi().deleteFiles(oldAvatarUrl);
       }
 
-      const newAvatarUrl = file.ufsUrl.replace(
-        "/f/",
-        `/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`,
-      );
-
       await updateUserProfile(metadata.user.id, {
-        avatarUrl: newAvatarUrl,
+        avatarUrl: file.ufsUrl,
       });
 
-      return { avatarUrl: newAvatarUrl };
+      return { avatarUrl: file.ufsUrl };
     }),
 } satisfies FileRouter;
 

@@ -54,7 +54,7 @@
     "stream-chat-react": "^12.13.1",
     "tailwind-merge": "^3.0.2",
     "tailwindcss-animate": "^1.0.7",
-    "uploadthing": "^7.5.2",
+    "uploadthing": "^7.6.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {

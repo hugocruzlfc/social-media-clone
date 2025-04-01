@@ -132,7 +132,7 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@4.0.17)
       uploadthing:
-        specifier: ^7.5.2
+        specifier: ^7.6.0
         version: 7.6.0(next@15.2.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(tailwindcss@4.0.17)
       zod:
         specifier: ^3.24.2
