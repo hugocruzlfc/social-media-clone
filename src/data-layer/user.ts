@@ -67,7 +67,7 @@ export async function getUserFindFirst(
 
 export async function updateUserProfile(
   userId: string,
-  userData: UpdateUserProfileValues,
+  userData: UpdateUserProfileValues | { avatarUrl?: string },
 ) {
   const updatedUser = await prisma.user.update({
     where: { id: userId },
