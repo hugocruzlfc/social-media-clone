@@ -37,11 +37,18 @@ export const getTrendingTopics = unstable_cache(
   },
 );
 
-export async function createPost(content: string, userId: string) {
+export async function createPost(
+  content: string,
+  mediaIds: string[],
+  userId: string,
+) {
   return await prisma.post.create({
     data: {
       content,
       userId,
+      attachments: {
+        connect: mediaIds.map((id) => ({ id })),
+      },
     },
     include: getPostDataInclude(userId),
   });
