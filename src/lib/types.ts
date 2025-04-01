@@ -34,6 +34,7 @@ export function getPostDataInclude(loggedInUserId: string) {
     user: {
       select: getUserDataSelect(loggedInUserId),
     },
+    attachments: true,
   } satisfies Prisma.PostInclude;
 }
 
@@ -66,4 +67,10 @@ export interface PostsPage {
 export interface FollowerInfo {
   followers: number;
   isFollowedByUser: boolean;
+}
+
+export interface Attachment {
+  file: File;
+  mediaId?: string;
+  isUploading: boolean;
 }

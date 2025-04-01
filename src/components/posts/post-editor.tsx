@@ -4,7 +4,11 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 
+import useMediaUpload from "@/hooks/use-media-upload";
 import { useSubmitPost } from "@/hooks/use-submit-post";
+import { Loader2 } from "lucide-react";
+import AttachmentPreviews from "../attachments-previews";
+import AddAttachmentsButton from "../buttons/add-attachments-bytton";
 import LoadingButton from "../buttons/loading-button";
 import { useSession } from "../session-provider";
 import UserAvatar from "../users/user-avatar";
@@ -13,6 +17,14 @@ import "./styles.css";
 export default function PostEditor() {
   const { user } = useSession();
   const mutation = useSubmitPost();
+  const {
+    startUpload,
+    attachments,
+    isUploading,
+    uploadProgress,
+    removeAttachment,
+    reset: resetMediaUploads,
+  } = useMediaUpload();
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -33,11 +45,18 @@ export default function PostEditor() {
     }) || "";
 
   function onSubmit() {
-    mutation.mutate(input, {
-      onSuccess: () => {
-        editor?.commands.clearContent();
+    mutation.mutate(
+      {
+        content: input,
+        mediaIds: attachments.map((a) => a.mediaId).filter(Boolean) as string[],
       },
-    });
+      {
+        onSuccess: () => {
+          editor?.commands.clearContent();
+          resetMediaUploads();
+        },
+      },
+    );
   }
 
   return (
@@ -49,11 +68,27 @@ export default function PostEditor() {
           className="bg-secondary max-h-[20rem] w-full overflow-y-auto rounded-2xl px-5 py-3"
         />
       </div>
-      <div className="flex justify-end">
+      {!!attachments.length && (
+        <AttachmentPreviews
+          attachments={attachments}
+          removeAttachment={removeAttachment}
+        />
+      )}
+      <div className="flex items-center justify-end gap-3">
+        {isUploading && (
+          <>
+            <span className="text-sm">{uploadProgress ?? 0}%</span>
+            <Loader2 className="text-primary size-5 animate-spin" />
+          </>
+        )}
+        <AddAttachmentsButton
+          onFilesSelected={startUpload}
+          disabled={isUploading || attachments.length >= 5}
+        />
         <LoadingButton
           onClick={onSubmit}
           loading={mutation.isPending}
-          disabled={!input.trim()}
+          disabled={!input.trim() || isUploading}
           className="min-w-20"
         >
           Post
