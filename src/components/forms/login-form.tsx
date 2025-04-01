@@ -16,7 +16,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import LoadingButton from "../buttons/loading-button";
 
-import { login } from "@/actions/login-action";
+import { loginAction } from "@/actions/login-action";
 import { PasswordInput } from "./password-input";
 
 export default function LoginForm() {
@@ -35,7 +35,7 @@ export default function LoginForm() {
   async function onSubmit(values: LoginValues) {
     setError(undefined);
     startTransition(async () => {
-      const { error } = await login(values);
+      const { error } = await loginAction(values);
       if (error) setError(error);
     });
   }

@@ -4,7 +4,7 @@ import { validateRequest } from "@/auth";
 import { createPost } from "@/data-layer/posts";
 import { createPostSchema } from "@/lib/validations";
 
-export async function submitPost(input: string) {
+export async function submitPostAction(input: string) {
   const { user } = await validateRequest();
 
   if (!user) throw new Error("Unauthorized");

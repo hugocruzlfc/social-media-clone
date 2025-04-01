@@ -1,4 +1,4 @@
-import { submitPost } from "@/actions/submit-post-action";
+import { submitPostAction } from "@/actions/submit-post-action";
 import { useSession } from "@/components/session-provider";
 import { PostsPage } from "@/lib/types";
 import {
@@ -15,7 +15,7 @@ export function useSubmitPost() {
   const { user } = useSession();
 
   const mutation = useMutation({
-    mutationFn: submitPost,
+    mutationFn: submitPostAction,
     onSuccess: async (newPost) => {
       const queryFilter: QueryFilters<InfiniteData<PostsPage, string | null>> =
         {

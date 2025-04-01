@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { getUserDataSelect } from "@/lib/types";
+import { UpdateUserProfileValues } from "@/lib/validations";
 
 export async function getUserToFollow(userId: string) {
   const usersToFollow = await prisma.user.findMany({
@@ -62,4 +63,17 @@ export async function getUserFindFirst(
   });
 
   return user;
+}
+
+export async function updateUserProfile(
+  userId: string,
+  userData: UpdateUserProfileValues,
+) {
+  const updatedUser = await prisma.user.update({
+    where: { id: userId },
+    data: userData,
+    select: getUserDataSelect(userId),
+  });
+
+  return updatedUser;
 }

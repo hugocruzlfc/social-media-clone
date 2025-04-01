@@ -1,6 +1,6 @@
 "use client";
 
-import { logout } from "@/actions/logout-action";
+import { logoutAction } from "@/actions/logout-action";
 
 import { cn } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
@@ -76,7 +76,7 @@ export default function UserButton({ className }: UserButtonProps) {
         <DropdownMenuItem
           onClick={() => {
             queryClient.clear();
-            logout();
+            logoutAction();
           }}
         >
           <LogOutIcon className="mr-2 size-4" />

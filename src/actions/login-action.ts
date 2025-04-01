@@ -9,7 +9,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { cookies as cookiesPromise } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function login(
+export async function loginAction(
   credentials: LoginValues,
 ): Promise<{ error: string }> {
   try {

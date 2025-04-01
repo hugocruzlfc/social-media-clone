@@ -1,4 +1,4 @@
-import { deletePost } from "@/actions/delet-post-action";
+import { deletePostAction } from "@/actions/delet-post-action";
 import { PostsPage } from "@/lib/types";
 import {
   InfiniteData,
@@ -16,7 +16,7 @@ export function useDeletePost() {
   const pathname = usePathname();
 
   const mutation = useMutation({
-    mutationFn: deletePost,
+    mutationFn: deletePostAction,
     onSuccess: async (deletedPost) => {
       const queryFilter: QueryFilters<InfiniteData<PostsPage, string | null>> =
         { queryKey: ["post-feed"] };

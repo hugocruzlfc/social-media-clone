@@ -1,6 +1,6 @@
 "use client";
 
-import { signUp } from "@/actions/signup-action";
+import { signUpAction } from "@/actions/signup-action";
 
 import {
   Form,
@@ -36,7 +36,7 @@ export default function SignUpForm() {
   async function onSubmit(values: SignUpValues) {
     setError(undefined);
     startTransition(async () => {
-      const { error } = await signUp(values);
+      const { error } = await signUpAction(values);
       if (error) setError(error);
     });
   }

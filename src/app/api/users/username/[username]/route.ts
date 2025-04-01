@@ -3,7 +3,7 @@ import { getUserFindFirst } from "@/data-layer/user";
 
 export async function GET(
   req: Request,
-  { params: { username } }: { params: { username: string } },
+  { params }: { params: Promise<{ username: string }> },
 ) {
   try {
     const { user: loggedInUser } = await validateRequest();
@@ -12,6 +12,7 @@ export async function GET(
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { username } = await params;
     const user = await getUserFindFirst(username, loggedInUser.id);
 
     if (!user) {

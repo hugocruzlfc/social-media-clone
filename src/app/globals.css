@@ -2,6 +2,8 @@
 
 @plugin "tailwindcss-animate";
 
+@import "uploadthing/tw/v4";
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
