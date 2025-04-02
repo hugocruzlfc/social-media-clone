@@ -10,7 +10,7 @@ export default function PostsLoadingSkeleton() {
   );
 }
 
-function PostLoadingSkeleton() {
+export function PostLoadingSkeleton() {
   return (
     <div className="bg-card w-full animate-pulse space-y-3 rounded-2xl p-5 shadow-sm">
       <div className="flex flex-wrap gap-3">
@@ -20,7 +20,7 @@ function PostLoadingSkeleton() {
           <Skeleton className="h-4 w-20 rounded" />
         </div>
       </div>
-      <Skeleton className="h-16 rounded" />
+      <Skeleton className="h-20 rounded" />
     </div>
   );
 }

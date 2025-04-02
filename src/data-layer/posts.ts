@@ -4,6 +4,8 @@ import prisma from "@/lib/prisma";
 import { getPostDataInclude } from "@/lib/types";
 
 import { unstable_cache } from "next/cache";
+import { notFound } from "next/navigation";
+import { cache } from "react";
 
 export async function getPosts(userId: string, cursor?: string) {
   const posts = await prisma.post.findMany({
@@ -106,3 +108,16 @@ export async function getPostsByUserId(
 
   return posts;
 }
+
+export const getPost = cache(async (postId: string, loggedInUserId: string) => {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+    include: getPostDataInclude(loggedInUserId),
+  });
+
+  if (!post) notFound();
+
+  return post;
+});
