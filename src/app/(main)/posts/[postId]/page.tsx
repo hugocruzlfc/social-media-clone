@@ -7,10 +7,8 @@ import UserTooltip from "@/components/users/user-tooltip";
 import { getPost } from "@/data-layer/posts";
 
 import { UserData } from "@/lib/types";
-import { Loader2 } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 
 interface PageProps {
   params: Promise<{ postId: string }>;
@@ -31,7 +29,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page({ params }: PageProps) {
+export default async function PostDetailsPage({ params }: PageProps) {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   const { postId } = await params;
   const { user } = await validateRequest();
 
@@ -51,9 +50,7 @@ export default async function Page({ params }: PageProps) {
         <Post post={post} />
       </div>
       <div className="sticky top-[5.25rem] hidden h-fit w-80 flex-none lg:block">
-        <Suspense fallback={<Loader2 className="mx-auto animate-spin" />}>
-          <UserInfoSidebar user={post.user} />
-        </Suspense>
+        <UserInfoSidebar user={post.user} />
       </div>
     </main>
   );
