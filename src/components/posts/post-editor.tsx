@@ -6,6 +6,8 @@ import StarterKit from "@tiptap/starter-kit";
 
 import useMediaUpload from "@/hooks/use-media-upload";
 import { useSubmitPost } from "@/hooks/use-submit-post";
+import { cn } from "@/lib/utils";
+import { useDropzone } from "@uploadthing/react";
 import { Loader2 } from "lucide-react";
 import AttachmentPreviews from "../attachments-previews";
 import AddAttachmentsButton from "../buttons/add-attachments-bytton";
@@ -25,6 +27,12 @@ export default function PostEditor() {
     removeAttachment,
     reset: resetMediaUploads,
   } = useMediaUpload();
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: startUpload,
+  });
+
+  const { onClick, ...rootProps } = getRootProps();
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -63,10 +71,16 @@ export default function PostEditor() {
     <div className="bg-card flex flex-col gap-5 rounded-2xl p-5 shadow-sm">
       <div className="flex gap-5">
         <UserAvatar avatarUrl={user.avatarUrl} className="hidden sm:inline" />
-        <EditorContent
-          editor={editor}
-          className="bg-secondary max-h-[20rem] w-full overflow-y-auto rounded-2xl px-5 py-3"
-        />
+        <div {...rootProps} className="w-full">
+          <EditorContent
+            editor={editor}
+            className={cn(
+              "bg-secondary max-h-[20rem] w-full overflow-y-auto rounded-2xl px-5 py-3",
+              isDragActive && "outline-dashed",
+            )}
+          />
+          <input {...getInputProps()} />
+        </div>
       </div>
       {!!attachments.length && (
         <AttachmentPreviews
