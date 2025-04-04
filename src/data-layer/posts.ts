@@ -1,4 +1,5 @@
-"use server";
+import "server-only";
+
 import { POSTS_PER_PAGE } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import { getPostDataInclude, LikeInfo } from "@/lib/types";
