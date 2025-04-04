@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { useDropzone } from "@uploadthing/react";
 import { Loader2 } from "lucide-react";
 import AttachmentPreviews from "../attachments-previews";
-import AddAttachmentsButton from "../buttons/add-attachments-bytton";
+import AddAttachmentsButton from "../buttons/add-attachments-button";
 import LoadingButton from "../buttons/loading-button";
 import { useSession } from "../session-provider";
 import UserAvatar from "../users/user-avatar";

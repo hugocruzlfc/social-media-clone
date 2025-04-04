@@ -1,4 +1,5 @@
-"use server";
+import "server-only";
+
 import prisma from "@/lib/prisma";
 import { getUserDataSelect } from "@/lib/types";
 import { UpdateUserProfileValues } from "@/lib/validations";
