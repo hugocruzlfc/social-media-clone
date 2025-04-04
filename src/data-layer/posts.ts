@@ -1,7 +1,7 @@
 "use server";
 import { POSTS_PER_PAGE } from "@/lib/constants";
 import prisma from "@/lib/prisma";
-import { getPostDataInclude } from "@/lib/types";
+import { getPostDataInclude, LikeInfo } from "@/lib/types";
 
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
@@ -121,3 +121,35 @@ export const getPost = cache(async (postId: string, loggedInUserId: string) => {
 
   return post;
 });
+
+export async function getPostWithLikes(postId: string, loggedInUserId: string) {
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+    select: {
+      likes: {
+        where: {
+          userId: loggedInUserId,
+        },
+        select: {
+          userId: true,
+        },
+      },
+      _count: {
+        select: {
+          likes: true,
+        },
+      },
+    },
+  });
+
+  if (!post) {
+    return null;
+  }
+
+  const data: LikeInfo = {
+    likes: post._count.likes,
+    isLikedByUser: !!post.likes.length,
+  };
+
+  return data;
+}

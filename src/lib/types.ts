@@ -74,3 +74,8 @@ export interface Attachment {
   mediaId?: string;
   isUploading: boolean;
 }
+
+export interface LikeInfo {
+  likes: number;
+  isLikedByUser: boolean;
+}
