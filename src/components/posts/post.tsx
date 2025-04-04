@@ -3,6 +3,7 @@
 import { PostData } from "@/lib/types";
 import { formatRelativeDate } from "@/lib/utils";
 import Link from "next/link";
+import BookmarkButton from "../buttons/bookmark-button";
 import LikeButton from "../buttons/like-buttons";
 import PostMoreButton from "../buttons/post-more-button";
 import Linkify from "../navigation/linkify";
@@ -59,13 +60,23 @@ export default function Post({ post }: PostProps) {
         <MediaPreviews attachments={post.attachments} />
       )}
       <hr className="text-muted-foreground" />
-      <LikeButton
-        postId={post.id}
-        initialState={{
-          likes: post._count.likes,
-          isLikedByUser: post.likes.some((like) => like.userId === user.id),
-        }}
-      />
+      <div className="flex justify-between gap-5">
+        <LikeButton
+          postId={post.id}
+          initialState={{
+            likes: post._count.likes,
+            isLikedByUser: post.likes.some((like) => like.userId === user.id),
+          }}
+        />
+        <BookmarkButton
+          postId={post.id}
+          initialState={{
+            isBookmarkedByUser: post.bookmarks.some(
+              (bookmark) => bookmark.userId === user.id,
+            ),
+          }}
+        />
+      </div>
     </article>
   );
 }
