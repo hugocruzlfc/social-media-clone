@@ -3,6 +3,7 @@
 import { PostData } from "@/lib/types";
 import { formatRelativeDate } from "@/lib/utils";
 import Link from "next/link";
+import LikeButton from "../buttons/like-buttons";
 import PostMoreButton from "../buttons/post-more-button";
 import Linkify from "../navigation/linkify";
 import { useSession } from "../session-provider";
@@ -57,6 +58,14 @@ export default function Post({ post }: PostProps) {
       {!!post.attachments.length && (
         <MediaPreviews attachments={post.attachments} />
       )}
+      <hr className="text-muted-foreground" />
+      <LikeButton
+        postId={post.id}
+        initialState={{
+          likes: post._count.likes,
+          isLikedByUser: post.likes.some((like) => like.userId === user.id),
+        }}
+      />
     </article>
   );
 }
