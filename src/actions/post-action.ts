@@ -1,8 +1,16 @@
 "use server";
 
 import { validateRequest } from "@/auth";
-import { createPost } from "@/data-layer/posts";
+import { createPost, removePost } from "@/data-layer/posts";
 import { createPostSchema } from "@/lib/validations";
+
+export async function deletePostAction(id: string) {
+  const { user } = await validateRequest();
+
+  if (!user) throw new Error("Unauthorized");
+
+  return await removePost(id, user.id);
+}
 
 export async function submitPostAction(input: {
   content: string;

@@ -1,4 +1,4 @@
-import { deletePostAction } from "@/actions/delet-post-action";
+import { deletePostAction } from "@/actions/post-action";
 import { PostsPage } from "@/lib/types";
 import {
   InfiniteData,

@@ -1,4 +1,4 @@
-import { updateUserProfileAction } from "@/actions/update-user-profile-action";
+import { updateUserProfileAction } from "@/actions/user-action";
 
 import { PostsPage } from "@/lib/types";
 import { useUploadThing } from "@/lib/uploadthing";

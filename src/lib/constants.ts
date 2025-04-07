@@ -10,6 +10,8 @@ export const API_URL = {
   BOOKMARK_BY_POST: (postId: string) =>
     `/api/posts/${postId}/bookmark` as const,
   BOOKMARKS: "/api/posts/bookmarked",
+  COMMENTS_BY_POST: (postId: string) =>
+    `/api/posts/${postId}/comments` as const,
 };
 
 export const POSTS_PER_PAGE = 10;
