@@ -113,3 +113,12 @@ export interface LikeInfo {
 export interface BookmarkInfo {
   isBookmarkedByUser: boolean;
 }
+
+export type CommentData = Prisma.CommentGetPayload<{
+  include: ReturnType<typeof getCommentDataInclude>;
+}>;
+
+export interface CommentsPage {
+  comments: CommentData[];
+  previousCursor: string | null;
+}
