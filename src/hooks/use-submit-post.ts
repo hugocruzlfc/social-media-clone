@@ -1,4 +1,4 @@
-import { submitPostAction } from "@/actions/submit-post-action";
+import { submitPostAction } from "@/actions/post-action";
 import { useSession } from "@/components/session-provider";
 import { PostsPage } from "@/lib/types";
 import {

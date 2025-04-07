@@ -1,6 +1,6 @@
 "use client";
 
-import { signUpAction } from "@/actions/signup-action";
+import { signUpAction } from "@/actions/auth-action";
 
 import {
   Form,

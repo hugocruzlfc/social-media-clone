@@ -16,7 +16,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import LoadingButton from "../buttons/loading-button";
 
-import { loginAction } from "@/actions/login-action";
+import { loginAction } from "@/actions/auth-action";
 import { PasswordInput } from "./password-input";
 
 export default function LoginForm() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { logoutAction } from "@/actions/logout-action";
+import { logoutAction } from "@/actions/auth-action";
 
 import { cn } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
