@@ -154,3 +154,12 @@ export async function getPostWithLikes(postId: string, loggedInUserId: string) {
 
   return data;
 }
+
+export async function getPostByUserId(postId: string) {
+  return prisma.post.findUnique({
+    where: { id: postId },
+    select: {
+      userId: true,
+    },
+  });
+}
