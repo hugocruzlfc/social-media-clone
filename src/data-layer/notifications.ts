@@ -25,3 +25,24 @@ export async function getNotifications(userId: string, cursor?: string) {
 
   return data;
 }
+
+export async function getUnreadNotificationsCountByUserId(userId: string) {
+  return prisma.notification.count({
+    where: {
+      recipientId: userId,
+      read: false,
+    },
+  });
+}
+
+export async function updateManyNotificationsRead(userId: string) {
+  return prisma.notification.updateMany({
+    where: {
+      recipientId: userId,
+      read: false,
+    },
+    data: {
+      read: true,
+    },
+  });
+}
