@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { formatDate, formatDistanceToNowStrict } from "date-fns";
 import { twMerge } from "tailwind-merge";
-import { POSTS_PER_PAGE } from "./constants";
+import { PAGE_SIZE } from "./constants";
 import { PostData, PostsPage } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -37,11 +37,10 @@ export function updateDynamicUrl(
 }
 
 export function formatPostData(posts: PostData[]) {
-  const nextCursor =
-    posts.length > POSTS_PER_PAGE ? posts[POSTS_PER_PAGE].id : null;
+  const nextCursor = posts.length > PAGE_SIZE ? posts[PAGE_SIZE].id : null;
 
   const data: PostsPage = {
-    posts: posts.slice(0, POSTS_PER_PAGE),
+    posts: posts.slice(0, PAGE_SIZE),
     nextCursor,
   };
 

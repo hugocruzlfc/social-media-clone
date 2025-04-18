@@ -14,4 +14,4 @@ export const API_URL = {
     `/api/posts/${postId}/comments` as const,
 };
 
-export const POSTS_PER_PAGE = 10;
+export const PAGE_SIZE = 10;

@@ -1,6 +1,6 @@
 import "server-only";
 
-import { POSTS_PER_PAGE } from "@/lib/constants";
+import { PAGE_SIZE } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import { getPostDataInclude, LikeInfo } from "@/lib/types";
 
@@ -12,7 +12,7 @@ export async function getPosts(userId: string, cursor?: string) {
   const posts = await prisma.post.findMany({
     include: getPostDataInclude(userId),
     orderBy: { createdAt: "desc" },
-    take: POSTS_PER_PAGE + 1,
+    take: PAGE_SIZE + 1,
     cursor: cursor ? { id: cursor } : undefined,
   });
 
@@ -86,7 +86,7 @@ export async function getPostsWithFollowers(userId: string, cursor?: string) {
       },
     },
     orderBy: { createdAt: "desc" },
-    take: POSTS_PER_PAGE + 1,
+    take: PAGE_SIZE + 1,
     cursor: cursor ? { id: cursor } : undefined,
     include: getPostDataInclude(userId),
   });
@@ -102,7 +102,7 @@ export async function getPostsByUserId(
   const posts = await prisma.post.findMany({
     where: { userId },
     orderBy: { createdAt: "desc" },
-    take: POSTS_PER_PAGE + 1,
+    take: PAGE_SIZE + 1,
     cursor: cursor ? { id: cursor } : undefined,
     include: getPostDataInclude(loggedUserId),
   });

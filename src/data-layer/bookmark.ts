@@ -1,6 +1,6 @@
 import "server-only";
 
-import { POSTS_PER_PAGE } from "@/lib/constants";
+import { PAGE_SIZE } from "@/lib/constants";
 import prisma from "@/lib/prisma";
 import { getPostDataInclude, PostsPage } from "@/lib/types";
 
@@ -56,15 +56,15 @@ export async function getBookmarks(userId: string, cursor?: string) {
     orderBy: {
       createdAt: "desc",
     },
-    take: POSTS_PER_PAGE + 1,
+    take: PAGE_SIZE + 1,
     cursor: cursor ? { id: cursor } : undefined,
   });
 
   const nextCursor =
-    bookmarks.length > POSTS_PER_PAGE ? bookmarks[POSTS_PER_PAGE].id : null;
+    bookmarks.length > PAGE_SIZE ? bookmarks[PAGE_SIZE].id : null;
 
   const data: PostsPage = {
-    posts: bookmarks.slice(0, POSTS_PER_PAGE).map((bookmark) => bookmark.post),
+    posts: bookmarks.slice(0, PAGE_SIZE).map((bookmark) => bookmark.post),
     nextCursor,
   };
 
