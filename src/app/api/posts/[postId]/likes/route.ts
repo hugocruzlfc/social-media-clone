@@ -1,6 +1,9 @@
 import { validateRequest } from "@/auth";
-import { deleteManyLikes, upsertLike } from "@/data-layer/likes";
-import { getPostWithLikes } from "@/data-layer/posts";
+import {
+  createLikeWithNotifications,
+  deleteNotificationsWithLikes,
+} from "@/data-layer/likes";
+import { getPostByUserId, getPostWithLikes } from "@/data-layer/posts";
 
 export async function GET(
   req: Request,
@@ -41,7 +44,13 @@ export async function POST(
 
     const { postId } = await params;
 
-    await upsertLike(postId, loggedInUser.id);
+    const post = await getPostByUserId(postId);
+
+    if (!post) {
+      return Response.json({ error: "Post not found" }, { status: 404 });
+    }
+
+    await createLikeWithNotifications(postId, loggedInUser.id, post.userId);
 
     return Response.json({ message: "Like added" }, { status: 200 });
   } catch (error) {
@@ -62,7 +71,14 @@ export async function DELETE(
     }
 
     const { postId } = await params;
-    await deleteManyLikes(postId, loggedInUser.id);
+
+    const post = await getPostByUserId(postId);
+
+    if (!post) {
+      return Response.json({ error: "Post not found" }, { status: 404 });
+    }
+
+    await deleteNotificationsWithLikes(postId, loggedInUser.id, post.userId);
 
     return Response.json({ message: "Likes removed" }, { status: 200 });
   } catch (error) {

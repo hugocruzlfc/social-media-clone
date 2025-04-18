@@ -28,12 +28,12 @@ export function useSubmitComment(postId: string) {
               pageParams: oldData.pageParams,
               pages: [
                 {
-                  previousCursor: firstPage.previousCursor,
+                  ...firstPage,
                   comments: [...firstPage.comments, newComment],
                 },
                 ...oldData.pages.slice(1),
               ],
-            };
+            } as InfiniteData<CommentsPage, string | null>;
           }
         },
       );

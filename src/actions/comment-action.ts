@@ -2,17 +2,18 @@
 
 import { validateRequest } from "@/auth";
 import {
-  createComment,
+  createCommentWithNotifications,
   getCommentById,
   removeComment,
 } from "@/data-layer/comment";
 import { createCommentSchema } from "@/lib/validations";
+import { Post } from "@prisma/client";
 
 export async function submitComment({
-  postId,
+  post,
   content,
 }: {
-  postId: string;
+  post: Post;
   content: string;
 }) {
   const { user } = await validateRequest();
@@ -21,7 +22,11 @@ export async function submitComment({
 
   const { content: contentValidated } = createCommentSchema.parse({ content });
 
-  const newComment = await createComment(postId, user.id, contentValidated);
+  const newComment = await createCommentWithNotifications(
+    post,
+    user.id,
+    contentValidated,
+  );
 
   return newComment;
 }

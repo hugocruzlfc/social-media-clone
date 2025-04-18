@@ -87,7 +87,7 @@ export default function Post({ post }: PostProps) {
           }}
         />
       </div>
-      {showComments && <Comments postId={post.id} />}
+      {showComments && <Comments post={post} />}
     </article>
   );
 }

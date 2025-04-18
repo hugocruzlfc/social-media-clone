@@ -1,12 +1,23 @@
+import { validateRequest } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { Bell, Bookmark, Home, Mail } from "lucide-react";
+import { getUnreadNotificationsCountByUserId } from "@/data-layer/notifications";
+import { Bookmark, Home, Mail } from "lucide-react";
 import Link from "next/link";
+import NotificationsButton from "../buttons/notifications-button";
 
 interface MenuBarProps {
   className?: string;
 }
 
-export default function MenuBar({ className }: MenuBarProps) {
+export default async function MenuBar({ className }: MenuBarProps) {
+  const { user } = await validateRequest();
+
+  if (!user) return null;
+
+  const unreadNotificationCount = await getUnreadNotificationsCountByUserId(
+    user.id,
+  );
+
   return (
     <div className={className}>
       <Button
@@ -16,21 +27,13 @@ export default function MenuBar({ className }: MenuBarProps) {
         asChild
       >
         <Link href="/">
-          <Home />
+          <Home className="size-5" />
           <span className="hidden lg:inline">Home</span>
         </Link>
       </Button>
-      <Button
-        variant="ghost"
-        className="flex items-center justify-start gap-3"
-        title="Notifications"
-        asChild
-      >
-        <Link href="/notifications">
-          <Bell />
-          <span className="hidden lg:inline">Notifications</span>
-        </Link>
-      </Button>
+      <NotificationsButton
+        initialState={{ unreadCount: unreadNotificationCount }}
+      />
       <Button
         variant="ghost"
         className="flex items-center justify-start gap-3"
@@ -38,7 +41,7 @@ export default function MenuBar({ className }: MenuBarProps) {
         asChild
       >
         <Link href="/messages">
-          <Mail />
+          <Mail className="size-5" />
           <span className="hidden lg:inline">Messages</span>
         </Link>
       </Button>
@@ -49,7 +52,7 @@ export default function MenuBar({ className }: MenuBarProps) {
         asChild
       >
         <Link href="/bookmarks">
-          <Bookmark />
+          <Bookmark className="size-5" />
           <span className="hidden lg:inline">Bookmarks</span>
         </Link>
       </Button>
