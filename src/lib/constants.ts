@@ -12,6 +12,8 @@ export const API_URL = {
   BOOKMARKS: "/api/posts/bookmarked",
   COMMENTS_BY_POST: (postId: string) =>
     `/api/posts/${postId}/comments` as const,
+  NOTIFICATIONS: "/api/notifications" as const,
+  NOTIFICATIONS_MARK_AS_READ: "/api/notifications/mark-as-read" as const,
 };
 
 export const PAGE_SIZE = 10;
