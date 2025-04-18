@@ -1,6 +1,7 @@
 import { API_URL } from "@/lib/constants";
 import kyInstance from "@/lib/ky-instance";
 import { CommentsPage } from "@/lib/types";
+import { Post } from "@prisma/client";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { Button } from "../ui/button";
@@ -8,17 +9,17 @@ import Comment from "./comment";
 import CommentInput from "./comment-input";
 
 interface CommentsProps {
-  postId: string;
+  post: Post;
 }
 
-export default function Comments({ postId }: CommentsProps) {
+export default function Comments({ post }: CommentsProps) {
   const { data, fetchNextPage, hasNextPage, isFetching, status } =
     useInfiniteQuery({
-      queryKey: ["comments", postId],
+      queryKey: ["comments", post.id],
       queryFn: ({ pageParam }) =>
         kyInstance
           .get(
-            API_URL.COMMENTS_BY_POST(postId),
+            API_URL.COMMENTS_BY_POST(post.id),
             pageParam ? { searchParams: { cursor: pageParam } } : {},
           )
           .json<CommentsPage>(),
@@ -34,7 +35,7 @@ export default function Comments({ postId }: CommentsProps) {
 
   return (
     <div className="space-y-3">
-      <CommentInput postId={postId} />
+      <CommentInput post={post} />
       {hasNextPage && (
         <Button
           variant="link"

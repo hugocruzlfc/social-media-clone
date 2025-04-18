@@ -3,19 +3,28 @@ import "server-only";
 import prisma from "@/lib/prisma";
 
 export async function upsertFollow(userId: string, loggedUserId: string) {
-  await prisma.follow.upsert({
-    where: {
-      followerId_followingId: {
+  return prisma.$transaction([
+    prisma.follow.upsert({
+      where: {
+        followerId_followingId: {
+          followerId: loggedUserId,
+          followingId: userId,
+        },
+      },
+      create: {
         followerId: loggedUserId,
         followingId: userId,
       },
-    },
-    create: {
-      followerId: loggedUserId,
-      followingId: userId,
-    },
-    update: {},
-  });
+      update: {},
+    }),
+    prisma.notification.create({
+      data: {
+        issuerId: loggedUserId,
+        recipientId: userId,
+        type: "FOLLOW",
+      },
+    }),
+  ]);
 }
 
 export async function deleteManyFollowers(

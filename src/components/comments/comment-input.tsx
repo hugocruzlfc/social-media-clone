@@ -1,17 +1,18 @@
 import { useSubmitComment } from "@/hooks/use-submit-comment";
+import { Post } from "@prisma/client";
 import { Loader2, SendHorizonal } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 
 interface CommentInputProps {
-  postId: string;
+  post: Post;
 }
 
-export default function CommentInput({ postId }: CommentInputProps) {
+export default function CommentInput({ post }: CommentInputProps) {
   const [input, setInput] = useState("");
 
-  const mutation = useSubmitComment(postId);
+  const mutation = useSubmitComment(post.id);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -20,7 +21,7 @@ export default function CommentInput({ postId }: CommentInputProps) {
 
     mutation.mutate(
       {
-        postId,
+        post,
         content: input,
       },
       {

@@ -2,20 +2,35 @@ import "server-only";
 
 import prisma from "@/lib/prisma";
 import { CommentsPage, getCommentDataInclude } from "@/lib/types";
+import { Post } from "@prisma/client";
 
-export async function createComment(
-  postId: string,
-  userId: string,
+export async function createCommentWithNotifications(
+  postI: Post,
+  loggedInUserId: string,
   content: string,
 ) {
-  return prisma.comment.create({
-    data: {
-      content,
-      postId,
-      userId,
-    },
-    include: getCommentDataInclude(userId),
-  });
+  return prisma.$transaction([
+    prisma.comment.create({
+      data: {
+        content,
+        postId: postI.id,
+        userId: loggedInUserId,
+      },
+      include: getCommentDataInclude(loggedInUserId),
+    }),
+    ...(postI.userId !== loggedInUserId
+      ? [
+          prisma.notification.create({
+            data: {
+              issuerId: loggedInUserId,
+              recipientId: postI.userId,
+              postId: postI.id,
+              type: "COMMENT",
+            },
+          }),
+        ]
+      : []),
+  ]);
 }
 
 export async function getCommentById(commentId: string) {
