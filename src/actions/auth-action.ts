@@ -116,7 +116,7 @@ export async function signUpAction(
       };
     }
 
-    await createUser(userId, username, email, passwordHash);
+    await createUser({ userId, username, email, passwordHash });
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
