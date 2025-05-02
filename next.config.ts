@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -11,7 +12,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: `${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}.ufs.sh`,
+        hostname: `${env.UPLOADTHING_APP_ID}.ufs.sh`,
         pathname: "/f/*",
       },
     ],

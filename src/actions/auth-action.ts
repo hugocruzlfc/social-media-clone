@@ -14,6 +14,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { cookies as cookiesPromise } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { createUser } from "@/data-layer/user";
 import { hash } from "@node-rs/argon2";
 import { generateIdFromEntropySize } from "lucia";
 
@@ -115,15 +116,7 @@ export async function signUpAction(
       };
     }
 
-    await prisma.user.create({
-      data: {
-        id: userId,
-        username,
-        displayName: username,
-        email,
-        passwordHash,
-      },
-    });
+    await createUser(userId, username, email, passwordHash);
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);

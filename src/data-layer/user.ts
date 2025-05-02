@@ -1,6 +1,7 @@
 import "server-only";
 
 import prisma from "@/lib/prisma";
+import streamServerClient from "@/lib/stream";
 import { getUserDataSelect } from "@/lib/types";
 import { UpdateUserProfileValues } from "@/lib/validations";
 
@@ -68,13 +69,45 @@ export async function getUserFindFirst(
 
 export async function updateUserProfile(
   userId: string,
-  userData: UpdateUserProfileValues | { avatarUrl?: string },
+  userData: Partial<UpdateUserProfileValues>,
 ) {
-  const updatedUser = await prisma.user.update({
-    where: { id: userId },
-    data: userData,
-    select: getUserDataSelect(userId),
-  });
+  return prisma.$transaction(async (tx) => {
+    const updatedUser = await tx.user.update({
+      where: { id: userId },
+      data: userData,
+      select: getUserDataSelect(userId),
+    });
+    await streamServerClient.partialUpdateUser({
+      id: userId,
+      set: {
+        name: userData.displayName,
+      },
+    });
 
-  return updatedUser;
+    return updatedUser;
+  });
+}
+
+export async function createUser(
+  userId: string,
+  username: string,
+  email: string,
+  passwordHash: string,
+) {
+  return prisma.$transaction(async (tx) => {
+    await tx.user.create({
+      data: {
+        id: userId,
+        username,
+        displayName: username,
+        email,
+        passwordHash,
+      },
+    });
+    await streamServerClient.upsertUser({
+      id: userId,
+      username,
+      name: username,
+    });
+  });
 }
