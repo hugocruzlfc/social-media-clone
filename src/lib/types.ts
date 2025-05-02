@@ -1,5 +1,9 @@
 import { Prisma } from "@prisma/client";
 
+export type SearchParams = Promise<{
+  [key: string]: string | string[] | undefined;
+}>;
+
 export function getUserDataSelect(loggedInUserId: string) {
   return {
     id: true,

@@ -18,6 +18,7 @@ export const API_URL = {
   GET_STREAM_TOKEN: "/api/get-token",
   MESSAGES_UNREAD_COUNT: "/api/messages/unread-count",
   GOOGLE_OAUTH: "https://www.googleapis.com/oauth2/v1/userinfo",
+  SEARCH: "/api/search",
 };
 
 export const ROUTES = {
