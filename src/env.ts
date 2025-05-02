@@ -22,9 +22,9 @@ export const env = createEnv({
     POSTGRES_DATABASE: z.string().min(1),
     POSTGRES_URL_NO_SSL: z.string().url().min(1),
     POSTGRES_PRISMA_URL: z.string().url().min(1),
+    UPLOADTHING_APP_ID: z.string().min(1),
   },
   client: {
-    NEXT_PUBLIC_UPLOADTHING_APP_ID: z.string().min(1),
     NEXT_PUBLIC_STREAM_KEY: z.string().min(1),
   },
 
@@ -47,7 +47,7 @@ export const env = createEnv({
     NEXT_PUBLIC_STREAM_KEY: process.env.NEXT_PUBLIC_STREAM_KEY,
     STREAM_SECRET: process.env.STREAM_SECRET,
     CRON_SECRET: process.env.CRON_SECRET,
-    NEXT_PUBLIC_UPLOADTHING_APP_ID: process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID,
+    UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
     UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
   },
 });
