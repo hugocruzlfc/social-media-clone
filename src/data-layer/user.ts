@@ -88,26 +88,38 @@ export async function updateUserProfile(
   });
 }
 
-export async function createUser(
-  userId: string,
-  username: string,
-  email: string,
-  passwordHash: string,
-) {
+interface CreateUserParams {
+  userId: string;
+  username: string;
+  email?: string;
+  passwordHash?: string;
+  googleId?: string;
+  displayName?: string;
+}
+
+export async function createUser({
+  userId,
+  username,
+  email,
+  passwordHash,
+  googleId,
+  displayName,
+}: CreateUserParams) {
   return prisma.$transaction(async (tx) => {
     await tx.user.create({
       data: {
         id: userId,
         username,
-        displayName: username,
+        displayName: displayName || username,
         email,
         passwordHash,
+        googleId,
       },
     });
     await streamServerClient.upsertUser({
       id: userId,
       username,
-      name: username,
+      name: displayName || username,
     });
   });
 }

@@ -5,7 +5,6 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url().min(1),
     DATABASE_URL_UNPOOLED: z.string().url().min(1),
-
     STREAM_SECRET: z.string().min(1),
     CRON_SECRET: z.string().min(1),
     UPLOADTHING_TOKEN: z.string().min(1),
@@ -23,9 +22,12 @@ export const env = createEnv({
     POSTGRES_URL_NO_SSL: z.string().url().min(1),
     POSTGRES_PRISMA_URL: z.string().url().min(1),
     UPLOADTHING_APP_ID: z.string().min(1),
+    GOOGLE_CLIENT_ID: z.string().min(1),
+    GOOGLE_CLIENT_SECRET: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_STREAM_KEY: z.string().min(1),
+    NEXT_PUBLIC_BASE_URL: z.string().url().min(1),
   },
 
   runtimeEnv: {
@@ -49,5 +51,8 @@ export const env = createEnv({
     CRON_SECRET: process.env.CRON_SECRET,
     UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
     UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   },
 });

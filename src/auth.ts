@@ -1,7 +1,9 @@
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
+import { Google } from "arctic";
 import { Lucia, Session, User } from "lucia";
 import { cookies as cookiesPromise } from "next/headers";
 import { cache } from "react";
+import { env } from "./env";
 import prisma from "./lib/prisma";
 
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
@@ -38,6 +40,12 @@ interface DatabaseUserAttributes {
   avatarUrl: string | null;
   googleId: string | null;
 }
+
+export const google = new Google(
+  env.GOOGLE_CLIENT_ID,
+  env.GOOGLE_CLIENT_SECRET,
+  `${env.NEXT_PUBLIC_BASE_URL}/api/auth/callback/google`,
+);
 
 export const validateRequest = cache(
   async (): Promise<
