@@ -1,8 +1,10 @@
 import { validateRequest } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { getUnreadNotificationsCountByUserId } from "@/data-layer/notifications";
-import { Bookmark, Home, Mail } from "lucide-react";
+import streamServerClient from "@/lib/stream";
+import { Bookmark, Home } from "lucide-react";
 import Link from "next/link";
+import MessagesButton from "../buttons/messages-button";
 import NotificationsButton from "../buttons/notifications-button";
 
 interface MenuBarProps {
@@ -14,9 +16,10 @@ export default async function MenuBar({ className }: MenuBarProps) {
 
   if (!user) return null;
 
-  const unreadNotificationCount = await getUnreadNotificationsCountByUserId(
-    user.id,
-  );
+  const [unreadNotificationCount, unreadMessagesCount] = await Promise.all([
+    getUnreadNotificationsCountByUserId(user.id),
+    (await streamServerClient.getUnreadCount(user.id)).total_unread_count,
+  ]);
 
   return (
     <div className={className}>
@@ -34,17 +37,7 @@ export default async function MenuBar({ className }: MenuBarProps) {
       <NotificationsButton
         initialState={{ unreadCount: unreadNotificationCount }}
       />
-      <Button
-        variant="ghost"
-        className="flex items-center justify-start gap-3"
-        title="Messages"
-        asChild
-      >
-        <Link href="/messages">
-          <Mail className="size-5" />
-          <span className="hidden lg:inline">Messages</span>
-        </Link>
-      </Button>
+      <MessagesButton initialState={{ unreadCount: unreadMessagesCount }} />
       <Button
         variant="ghost"
         className="flex items-center justify-start gap-3"

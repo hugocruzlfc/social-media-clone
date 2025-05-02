@@ -16,6 +16,7 @@ export const API_URL = {
   NOTIFICATIONS_MARK_AS_READ: "/api/notifications/mark-as-read" as const,
   UNREAD_NOTIFICATION_COUNT: "/api/notifications/unread-count" as const,
   GET_STREAM_TOKEN: "/api/get-token" as const,
+  MESSAGES_UNREAD_COUNT: "/api/messages/unread-count" as const,
 };
 
 export const ROUTES = {};
