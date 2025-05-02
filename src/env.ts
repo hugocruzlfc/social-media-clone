@@ -5,7 +5,7 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url().min(1),
     DATABASE_URL_UNPOOLED: z.string().url().min(1),
-    STREAM_KEY: z.string().min(1),
+
     STREAM_SECRET: z.string().min(1),
     CRON_SECRET: z.string().min(1),
     UPLOADTHING_TOKEN: z.string().min(1),
@@ -25,6 +25,7 @@ export const env = createEnv({
   },
   client: {
     NEXT_PUBLIC_UPLOADTHING_APP_ID: z.string().min(1),
+    NEXT_PUBLIC_STREAM_KEY: z.string().min(1),
   },
 
   runtimeEnv: {
@@ -43,7 +44,7 @@ export const env = createEnv({
     PGUSER: process.env.PGUSER,
     PGPASSWORD: process.env.PGPASSWORD,
     PGDATABASE: process.env.PGDATABASE,
-    STREAM_KEY: process.env.STREAM_KEY,
+    NEXT_PUBLIC_STREAM_KEY: process.env.NEXT_PUBLIC_STREAM_KEY,
     STREAM_SECRET: process.env.STREAM_SECRET,
     CRON_SECRET: process.env.CRON_SECRET,
     NEXT_PUBLIC_UPLOADTHING_APP_ID: process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID,
