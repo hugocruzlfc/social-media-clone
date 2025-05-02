@@ -1,11 +1,12 @@
 import { deleteMedias, getMedias } from "@/data-layer/media";
+import { env } from "@/env";
 import { UTApi } from "uploadthing/server";
 
 export async function GET(req: Request) {
   try {
     const authHeader = req.headers.get("Authorization");
 
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    if (authHeader !== `Bearer ${env.CRON_SECRET}`) {
       return Response.json(
         { message: "Invalid authorization header" },
         { status: 401 },

@@ -20,10 +20,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | bugbook",
-    default: "bugbook",
+    template: "%s | SMC",
+    default: "social media clone",
   },
-  description: "The social media app for powernerds",
+  description: "The social media clone app for powernerds",
 };
 export default function RootLayout({
   children,
