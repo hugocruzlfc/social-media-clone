@@ -2,7 +2,7 @@ import "server-only";
 
 import { PAGE_SIZE } from "@/lib/constants";
 import prisma from "@/lib/prisma";
-import { getPostDataInclude, LikeInfo } from "@/lib/types";
+import { getPostDataInclude, LikeInfo, PostsPage } from "@/lib/types";
 
 import { unstable_cache } from "next/cache";
 import { notFound } from "next/navigation";
@@ -162,4 +162,49 @@ export async function getPostByUserId(postId: string) {
       userId: true,
     },
   });
+}
+
+export async function getPostBySearchQuery(
+  userId: string,
+  searchQuery: string,
+  cursor?: string,
+) {
+  const posts = await prisma.post.findMany({
+    where: {
+      OR: [
+        {
+          content: {
+            search: searchQuery,
+          },
+        },
+        {
+          user: {
+            displayName: {
+              search: searchQuery,
+            },
+          },
+        },
+        {
+          user: {
+            username: {
+              search: searchQuery,
+            },
+          },
+        },
+      ],
+    },
+    include: getPostDataInclude(userId),
+    orderBy: { createdAt: "desc" },
+    take: PAGE_SIZE + 1,
+    cursor: cursor ? { id: cursor } : undefined,
+  });
+
+  const nextCursor = posts.length > PAGE_SIZE ? posts[PAGE_SIZE].id : null;
+
+  const data: PostsPage = {
+    posts: posts.slice(0, PAGE_SIZE),
+    nextCursor,
+  };
+
+  return data;
 }
